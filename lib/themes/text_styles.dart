@@ -16,6 +16,7 @@ class AppTextStyles {
   static const heading = TextStyle(
     fontSize: 28,
     fontWeight: FontWeight.bold,
+    color: Colors.white
   );
 
   // Versiones con contexto para cuando necesites colores dinámicos

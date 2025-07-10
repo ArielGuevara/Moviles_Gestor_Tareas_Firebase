@@ -22,7 +22,7 @@ class Homeview extends StatelessWidget {
     final vm = Provider.of<DrawerViewModel>(context, listen: false);
     final navVM = Provider.of<ButtomNavViewModel>(context);
     return Scaffold(
-      appBar: AppBar(title: Text(vm.selected),),
+      appBar: AppBar(title: Text(vm.selected, style: TextStyle(color: Colors.white),),),
       drawer: DrawerView(),
       // body: Center(
       //   child: Text("Pantalla de ${vm.selected}",
@@ -36,7 +36,7 @@ class Homeview extends StatelessWidget {
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.calendar_today), label: 'Calendario'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.list), label: 'Lista de Tareas'),
+              icon: Icon(Icons.list), label: 'Lista de Tareas', ),
           BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: 'Estadísticas'),
         ],
       ),

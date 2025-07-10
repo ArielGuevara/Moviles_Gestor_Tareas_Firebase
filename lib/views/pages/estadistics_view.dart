@@ -1,13 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:pry_gestion_tareas/services/tarea_service.dart';
 
-class EstadisticsView extends StatelessWidget {
+class EstadisticsView extends StatefulWidget {
   const EstadisticsView({Key? key}) : super(key: key);
 
   @override
+  State<EstadisticsView> createState() => _EstadisticsViewState();
+}
+
+class _EstadisticsViewState extends State<EstadisticsView>{
+  int _tareasCompletadas = 0;
+  int _tareasPendientes = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _cargarCantidadTareasCompletas();
+    _cargarCantidadTareasPendientes();
+  }
+
+  Future<void> _cargarCantidadTareasCompletas() async {
+    final cantidad = await TareaService().obtenerNumeroTareasCompletadas();
+    setState(() {
+      _tareasCompletadas = cantidad;
+    });
+  }
+
+  Future<void> _cargarCantidadTareasPendientes() async {
+    final cantidadP = await TareaService().obtenerNumeroTareasPendientes();
+    setState(() {
+      _tareasPendientes = cantidadP;
+    });
+  }
+
+@override
   Widget build(BuildContext context) {
-    // Datos de ejemplo
-    final int tareasCompletadas = 8;
-    final int tareasPendientes = 4;
+
+    final TareaService tareaService = TareaService();
+    final int tareasCompletadas = _tareasCompletadas;
+    final int tareasPendientes = _tareasPendientes;
     final int totalTareas = tareasCompletadas + tareasPendientes;
     final double progreso = totalTareas == 0 ? 0 : tareasCompletadas / totalTareas;
 

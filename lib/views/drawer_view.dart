@@ -22,7 +22,7 @@ class DrawerView extends StatelessWidget {
                     children: [
                       Icon(Icons.add, size: 50, color: Colors.white),
                       Text("Gestión de Tareas", style: TextStyle(fontSize: 22, color: Colors.white),),
-                      Text("www.traveling.com", style: TextStyle(fontSize: 10, color: Colors.white70),),
+                      Text("Universidad de las Fuerzas Armadas ESPE", style: TextStyle(fontSize: 10, color: Colors.white70),),
                     ],
                   ),
                 ),

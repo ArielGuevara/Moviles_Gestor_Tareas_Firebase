@@ -14,7 +14,7 @@ class _CalendarioViewState extends State<CalendarView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Calendario'),
+        title: const Text('Calendario', style: TextStyle(color: Colors.white)),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,

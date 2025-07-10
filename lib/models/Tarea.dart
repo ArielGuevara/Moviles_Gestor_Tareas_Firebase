@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Tarea {
+  final String? docId; // ID del documento en Firestore
   final String titulo;
   final String descripcion;
   final DateTime fechaCreacion;
@@ -8,6 +10,7 @@ class Tarea {
   bool completada;
 
   Tarea({
+    this.docId,
     required this.titulo,
     required this.descripcion,
     required this.fechaCreacion,
@@ -26,6 +29,7 @@ class Tarea {
   // Convertir a Map para subir a Firestore
   Map<String, dynamic> toMap() {
     return {
+      'docId': docId, // Incluir el ID del documento si está presente
       'titulo': titulo,
       'descripcion': descripcion,
       'fechaCreacion': fechaCreacion.toIso8601String(),
@@ -35,12 +39,17 @@ class Tarea {
   }
 
   // Crear una instancia desde Firestore
-  factory Tarea.fromMap(Map<String, dynamic> map) {
+  factory Tarea.fromMap(Map<String, dynamic> map, String? docId) {
     return Tarea(
+      docId: docId, // Asignar el ID del documento si está presente
       titulo: map['titulo'],
       descripcion: map['descripcion'],
-      fechaCreacion: DateTime.parse(map['fechaCreacion']),
-      fechaLimite: DateTime.parse(map['fechaLimite']),
+      fechaCreacion: map['fechaCreacion'] is Timestamp
+        ? (map['fechaCreacion'] as Timestamp).toDate()
+        : DateTime.parse(map['fechaCreacion']),
+      fechaLimite: map['fechaLimite'] is Timestamp
+        ? (map['fechaLimite'] as Timestamp).toDate()
+        : DateTime.parse(map['fechaLimite']),
       completada: map['completada'] ?? false,
     );
   }

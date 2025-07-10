@@ -6,6 +6,7 @@ import 'package:pry_gestion_tareas/viewmodels/buttom_nav_viewmodel.dart';
 import 'package:pry_gestion_tareas/views/home_view.dart';
 import 'package:pry_gestion_tareas/views/login_view.dart';
 import 'package:pry_gestion_tareas/views/pages/configuration_view.dart';
+import 'package:pry_gestion_tareas/views/pages/crear_tarea_view.dart';
 import 'package:pry_gestion_tareas/views/pages/pendients_view.dart';
 import 'package:pry_gestion_tareas/views/pages/register_view.dart';
 import 'package:pry_gestion_tareas/views/pages/today_view.dart';
@@ -41,7 +42,8 @@ void main() async {
           'register': (context) => RegisterView(), // Puedes cambiar esto por la vista de registro que desees
           '/today': (context) => TodayView(),
           '/pendients': (context) => PendientsView(),
-          '/settings': (context) => ConfigurationView(), // Puedes cambiar esto por la vista de configuración que desees
+          '/settings': (context) => ConfigurationView(),
+          '/crearTask': (context) => CrearTareaView(), // Cambia esto por la vista de creación de tareas
         },
       ),
     ),
