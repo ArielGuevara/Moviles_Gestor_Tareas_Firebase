@@ -121,7 +121,7 @@ class LoginPageState extends State<LoginView> {
                         onPressed: () {
                           Navigator.pushNamed(
                             context,
-                            'register'
+                            '/register'
                           );
                         },
                         child: Text(

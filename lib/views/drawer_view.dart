@@ -15,7 +15,7 @@ class DrawerView extends StatelessWidget {
               children: [
                 DrawerHeader(
                   decoration: BoxDecoration(
-                      gradient: LinearGradient(colors: [Colors.blueAccent, Colors.lightBlue])
+                      gradient: LinearGradient(colors: [Colors.orange, Colors.red])
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,9 +28,9 @@ class DrawerView extends StatelessWidget {
                 ),
                 ListTile(
                   selected: vm.selected == 'Home',
-                  selectedTileColor: Colors.blue.shade300,
-                  leading: Icon(Icons.home),
-                  title: Text('Home'),
+                  selectedTileColor: Colors.orange.shade200,
+                  leading: Icon(Icons.home, color: Colors.orange),
+                  title: Text('Home', style: TextStyle(color: Colors.orange)),
                   onTap: () {
                     vm.selct('Home');
                     Navigator.pop(context);
@@ -39,9 +39,9 @@ class DrawerView extends StatelessWidget {
                 Divider(),
                 ListTile(
                   selected: vm.selected == 'Today',
-                  selectedTileColor: Colors.blue.shade300,
-                  leading: Icon(Icons.task_alt_rounded),
-                  title: Text('Hoy'),
+                  selectedTileColor: Colors.orange.shade200,
+                  leading: Icon(Icons.task_alt_rounded, color: Colors.red),
+                  title: Text('Hoy', style: TextStyle(color: Colors.red)),
                   onTap: () {
                     vm.selct('Today');
                     Navigator.pop(context);
@@ -51,9 +51,9 @@ class DrawerView extends StatelessWidget {
                 Divider(),
                 ListTile(
                   selected: vm.selected == 'Pendients',
-                  selectedTileColor: Colors.blue.shade300,
-                  leading: Icon(Icons.assignment_late_outlined),
-                  title: Text('Pendientes'),
+                  selectedTileColor: Colors.orange.shade200,
+                  leading: Icon(Icons.assignment_late_outlined, color: Colors.orange),
+                  title: Text('Pendientes', style: TextStyle(color: Colors.orange)),
                   onTap: () {
                     vm.selct('Pendients');
                     Navigator.pop(context);
@@ -63,9 +63,9 @@ class DrawerView extends StatelessWidget {
                 Divider(),
                 ListTile(
                   selected: vm.selected == 'settings',
-                  selectedTileColor: Colors.blue.shade300,
-                  leading: Icon(Icons.settings),
-                  title: Text('Configuración'),
+                  selectedTileColor: Colors.orange.shade200,
+                  leading: Icon(Icons.settings, color: Colors.red),
+                  title: Text('Configuración', style: TextStyle(color: Colors.red)),
                   onTap: () {
                     vm.selct('settings');
                     Navigator.pop(context);

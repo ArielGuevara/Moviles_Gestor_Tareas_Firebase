@@ -20,6 +20,7 @@ class _ListTaskViewState extends State<ListTaskView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Lista de Tareas', style: TextStyle(color: Colors.white)),
+        backgroundColor: Colors.orange,
       ),
       body: FutureBuilder<List<Tarea>>(
           future: service.obtenerTareas(),
