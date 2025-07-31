@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pry_gestion_tareas/services/login_service.dart';
-import 'package:pry_gestion_tareas/views/login_view.dart';
 import 'package:pry_gestion_tareas/services/register_service.dart';
-
 
 class RegisterView extends StatefulWidget {
   @override
@@ -14,6 +11,8 @@ class _RegisterPageState extends State<RegisterView> {
   final _emailController = TextEditingController();
   final _claveController = TextEditingController();
   final _confirmClaveController = TextEditingController();
+  bool _obscureText = true;
+  bool _isLoading = false;
 
   final controller = RegisterService();
 
@@ -28,54 +27,141 @@ class _RegisterPageState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Registro')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                controller: _emailController,
-                decoration: InputDecoration(labelText: 'Email'),
-                validator: controller.validarEmail, // Cambiado a LoginService
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.orange, Colors.red],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Card(
+              elevation: 8,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24),
               ),
-              TextFormField(
-                controller: _claveController,
-                obscureText: true,
-                decoration: InputDecoration(labelText: 'Contraseña'),
-                validator: controller.validarClave,
+              margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+              child: Padding(
+                padding: const EdgeInsets.all(28.0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: Colors.orangeAccent,
+                        radius: 38,
+                        child: Icon(Icons.person_add, size: 40, color: Colors.red),
+                      ),
+                      const SizedBox(height: 18),
+                      Text(
+                        'Crear Cuenta',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.orange,
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      TextFormField(
+                        controller: _emailController,
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.email, color: Colors.orange),
+                          labelText: 'Email',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                        ),
+                        validator: controller.validarEmail,
+                      ),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: _claveController,
+                        obscureText: _obscureText,
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.lock, color: Colors.orange),
+                          labelText: 'Contraseña',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _obscureText ? Icons.visibility : Icons.visibility_off,
+                              color: Colors.orange,
+                            ),
+                            onPressed: () {
+                              setState(() => _obscureText = !_obscureText);
+                            },
+                          ),
+                        ),
+                        validator: controller.validarClave,
+                      ),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: _confirmClaveController,
+                        obscureText: _obscureText,
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.lock_outline, color: Colors.orange),
+                          labelText: 'Confirmar Contraseña',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value != _claveController.text) {
+                            return 'Las contraseñas no coinciden';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 28),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            backgroundColor: Colors.orange,
+                          ),
+                          onPressed: _isLoading
+                              ? null
+                              : () async {
+                            if (_formKey.currentState!.validate()) {
+                              setState(() => _isLoading = true);
+                              String mensajeValidator = await controller.register(
+                                  _emailController,
+                                  _claveController,
+                                  context
+                              );
+                              if (mounted) setState(() => _isLoading = false);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text(mensajeValidator)),
+                              );
+                            }
+                          },
+                          child: _isLoading
+                              ? CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation(Colors.white),
+                          )
+                              : Text(
+                            'Registrarse',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              TextFormField(
-                controller: _confirmClaveController,
-                obscureText: true,
-                decoration: InputDecoration(labelText: 'Confirmar Contraseña'),
-                validator: (value) {
-                  if (value != _claveController.text) {
-                    return 'Las contraseñas no coinciden';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    String mensajeValidator = await controller.register(
-                      _emailController,
-                      _claveController,
-                      context
-                    );
-                    //Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(mensajeValidator,
-                        selectionColor: Colors.white,)),
-                    );
-                  }
-                },
-                child: Text('Registrarse'),
-              ),
-            ],
+            ),
           ),
         ),
       ),
